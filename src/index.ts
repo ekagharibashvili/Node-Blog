@@ -20,10 +20,10 @@ app.use("/", (req: Request, res: Response): void => {
   res.send("Use /post instead of /");
 });
 
-const DB: string | undefined = process.env.DATABASE.replace(
+const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
-);
+)
 
 mongoose
   .connect(DB, {
