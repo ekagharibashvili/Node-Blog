@@ -1,8 +1,9 @@
-import express, { Request, Response, Application } from "express";
-import env from "process";
-const dotenv = require("dotenv");
-const mongoose = require("mongoose");
-const postRouter = require("./routes/postRoutes");
+const express = require('express');
+import { Request, Response, Application } from 'express';
+// import env from "process";
+const dotenv = require('dotenv');
+const mongoose = require('mongoose');
+const postRouter = require('./routes/postRoutes.js')
 
 dotenv.config({
   path: "./config.env",
@@ -20,10 +21,15 @@ app.use("/", (req: Request, res: Response): void => {
   res.send("Use /post instead of /");
 });
 
-const DB: string | undefined = process.env.DATABASE.replace(
+const envDB: string = typeof process.env.DATABASE === 'string' ? process.env.DATABASE : " ";
+const db_pass: string = typeof process.env.DATABASE_PASSWORD === 'string' ? process.env.DATABASE_PASSWORD : " ";
+
+const DB: string = envDB.replace(
   "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
+  db_pass
 );
+
+console.log(DB);
 
 mongoose
   .connect(DB, {
