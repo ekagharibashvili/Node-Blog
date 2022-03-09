@@ -32,7 +32,7 @@ const userSchema = new mongoose.Schema({
 });
 
 // return active users only
-userSchema.pre("find", function () {
+userSchema.pre(/^find/, function () {
   this.find({ active: true });
 });
 

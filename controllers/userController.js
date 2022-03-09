@@ -36,10 +36,8 @@ exports.updateUser = async (req, res, next) => {
       new: true,
     });
     res.status(200).json({
-      status: "success",
-      data: {
-        data: updatedUser,
-      },
+      status: "OK",
+      data: updatedUser,
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
@@ -50,14 +48,10 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
-      new: true,
-    });
-    res.status(200).json({
-      status: "success",
-      data: {
-        data: updatedUser,
-      },
+     await User.findByIdAndUpdate(userId, req.body);
+    res.status(204).json({
+      status: "OK",
+      data: null
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
