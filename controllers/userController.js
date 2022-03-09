@@ -28,21 +28,6 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-// read by userId
-exports.getUserById = async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    const user = await User.findOne({ id: userId });
-
-    res.status(200).json({
-      status: "OK",
-      data: user,
-    });
-  } catch (err) {
-    console.log(JSON.stringify(err, null, 2));
-  }
-};
-
 // update
 exports.updateUser = async (req, res, next) => {
   try {
