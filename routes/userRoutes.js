@@ -4,14 +4,14 @@ const userController = require("../controllers/userController.js");
 
 const router = express.Router();
 
-/* router.route("/create").post(postController.createPost);
+router.route("/create").post(userController.createUser);
 
-router.route("/get").get(postController.getPosts);
+router.route("/get").get(userController.getAllUsers);
 
-router.route("/delete/:postId").delete(postController.deletePost);
+router.route("/get/:userId").get(userController.getUserById);
 
-router.route("/change/:postId").patch(postController.changePost);
+router.route("/update/:userId").put(userController.updateUser);
 
-router.route("/changeWithPut/:postId").put(postController.changeWithPutPost); */
+router.route("/delete/:userId").delete(userController.deleteUser);
 
 module.exports = router;

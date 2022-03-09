@@ -19,9 +19,14 @@ const userSchema = new mongoose.Schema({
     default: Date.now(),
   },
   active: {
-      type: Boolean,
-      default: true,
-  }
+    type: Boolean,
+    default: true,
+  },
+});
+
+// return active users only
+userSchema.pre("find", function () {
+  this.find({ active: true });
 });
 
 const User = mongoose.model("User", userSchema);
