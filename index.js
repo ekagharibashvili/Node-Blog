@@ -3,6 +3,7 @@ const dotenv = require('dotenv')
 const mongoose = require('mongoose')
 
 const postRouter = require('./routes/postRoutes')
+const userRouter = require('./routes/userRoutes')
 
 //for defining enviroment variables
 dotenv.config({
@@ -21,6 +22,9 @@ app.use(express.json({ limit: '10kb' }));
 
 app.use('/post', postRouter)
 // app.use('/user', userRouter)
+
+// route for users 
+app.use('/user', userRouter)
 
 app.use('/', (req, res, next) => {
   res.send('Use /post instead of /')
