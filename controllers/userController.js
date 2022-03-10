@@ -11,17 +11,19 @@ exports.createUser = async (req, res, next) => {
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
-    if(err.code === 11000) {
+    if (err.code === 11000) {
       res.status(400).json({
-        status: 'Error',
-        message: 'User with this username already exists!'
-      })
+        status: "Error",
+        message: "User with this username already exists!",
+      });
     } else {
-      const errorMessagesArray = Object.values(err.errors).map(err => err.message)
+      const errorMessagesArray = Object.values(err.errors).map(
+        (err) => err.message
+      );
       res.status(400).json({
-        status: 'Error',
-        message: errorMessagesArray
-      })
+        status: "Error",
+        message: errorMessagesArray,
+      });
     }
   }
 };
@@ -37,6 +39,13 @@ exports.getAllUsers = async (req, res, next) => {
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
   }
 };
 
@@ -53,6 +62,13 @@ exports.updateUser = async (req, res, next) => {
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
   }
 };
 
@@ -60,12 +76,19 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-     await User.findByIdAndUpdate(userId, req.body);
+    await User.findByIdAndUpdate(userId, req.body);
     res.status(204).json({
       status: "OK",
-      data: null
+      data: null,
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
   }
 };
