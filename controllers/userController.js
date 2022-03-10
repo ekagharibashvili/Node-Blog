@@ -125,21 +125,21 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { status } = req.body;
+    const { active } = req.body;
 
-    if (!Boolean(status)) {
+    if (typeof active !== Boolean) {
       res.status(400).json({
         status: "Error",
-        message: "You should provide correctyy status field",
+        message: "You should provide correct status field",
+      });
+    } else {
+      await User.findByIdAndUpdate(userId, { active });
+
+      res.status(204).json({
+        status: "OK",
+        data: null,
       });
     }
-
-    await User.findByIdAndUpdate(userId, { status });
-
-    res.status(204).json({
-      status: "OK",
-      data: null,
-    });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     const errorMessagesArray = Object.values(err.errors).map(
