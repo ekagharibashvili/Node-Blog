@@ -1,8 +1,11 @@
 const express = require("express");
+const { isAuth } =  require('../middlewares/isAuthentication.js')
 
 const postController = require("../controllers/postController");
 
 const router = express.Router();
+
+router.use(isAuth)
 
 router.route("/create").post(postController.createPost);
 

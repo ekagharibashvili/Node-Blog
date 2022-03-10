@@ -1,40 +1,99 @@
+const bcrypt = require('bcryptjs')
+const jwt = require('jsonwebtoken')
+
 const User = require("../models/user");
+
+
 // create
-exports.createUser = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   try {
-    const { username, password, email } = req.body;
-    const user = await User.create({ username, password, email });
+    // 1) Get user data
+    let { username, password, email } = req.body;
+
+    // Hash password and create auth token     
+    password = await bcrypt.hash(password, 12);
+    
+    const newUser = await User.create({ username, password, email });
+    const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
+
 
     res.status(200).json({
       status: "OK",
-      data: user,
+      data: newUser,
+      token
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     if(err.code === 11000) {
-      res.status(400).json({
+      return res.status(400).json({
         status: 'Error',
-        message: 'User with this username already exists!'
-      })
-    } else {
-      const errorMessagesArray = Object.values(err.errors).map(err => err.message)
-      res.status(400).json({
-        status: 'Error',
-        message: errorMessagesArray
+        message: 'User with this username already exists'
       })
     }
+
+    if(!err.hasOwnProperty('errors')) {
+      return res.status(400).json({
+        status: 'Error',
+        message: err
+      })
+    }
+
+    const errorMessagesArray =  Object.values(err.errors).map(err => err.message)
+    res.status(400).json({
+      status: 'Error',
+      message: errorMessagesArray
+    })
+  }
+};
+
+
+exports.login = async (req, res, next) => {
+  try {
+    let { username, password } = req.body;
+
+    // Check if the user already exists
+    const user = await User.findOne({ username })
+
+    if(!user) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'User does not exists, register first'
+      })
+    }
+
+    if(!(await bcrypt.compare(password, user.password))) {
+      return res.status(400).json({
+        status: 'Error',
+        message: 'Incorrect username or password'
+      })
+    }
+
+
+    const token = jwt.sign({ username }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES })
+
+    res.status(200).json({
+      status: "OK",
+      data: user,
+      token
+    });
+
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
   }
 };
 
 // read
 exports.getAllUsers = async (req, res, next) => {
   try {
+    // req.user.email
     const users = await User.find({});
 
     res.status(200).json({
       status: "OK",
       data: users,
     });
+
+
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
   }
@@ -47,6 +106,7 @@ exports.updateUser = async (req, res, next) => {
     const updatedUser = await User.findByIdAndUpdate(userId, req.body, {
       new: true,
     });
+
     res.status(200).json({
       status: "OK",
       data: updatedUser,
@@ -60,7 +120,17 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-     await User.findByIdAndUpdate(userId, req.body);
+    const { status } = req.body;
+
+    if(!Boolean(status)) {
+      res.status(400).json({
+        status: 'Error',
+        message: 'You should provide correctyy status field'
+      })
+    }
+
+    await User.findByIdAndUpdate(userId, { status });
+
     res.status(204).json({
       status: "OK",
       data: null
