@@ -26,7 +26,7 @@ exports.isAuth = async (req, res, next) => {
   //  { username: 'levani '}
 
   // 3) Check if user still exists  (SECURITY)
-  const freshUser = await User.find({ username: decoded.username });
+  const freshUser = await User.find({ username: decoded.username});
 
   if (!freshUser) {
     return res.status(401).json({

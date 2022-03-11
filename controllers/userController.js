@@ -12,7 +12,7 @@ exports.signup = async (req, res, next) => {
     password = await bcrypt.hash(password, 12);
 
     const newUser = await User.create({ username, password, email });
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES,
     });
 
@@ -28,6 +28,11 @@ exports.signup = async (req, res, next) => {
         status: "Error",
         message: "User with this username already exists!",
       });
+    } else if (!err.hasOwnProperty("errors")) {
+      res.status(400).json({
+        status: "Error",
+        message: "Unexpected error occured while creating user",
+      });
     } else {
       const errorMessagesArray = Object.values(err.errors).map(
         (err) => err.message
@@ -42,10 +47,10 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    let { username, password } = req.body;
+    let { email, password } = req.body;
 
     // Check if the user already exists
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email});
 
     if (!user) {
       return res.status(400).json({
@@ -61,7 +66,7 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const token = jwt.sign({ username }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email}, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES,
     });
 
