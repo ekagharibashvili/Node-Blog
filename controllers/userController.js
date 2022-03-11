@@ -28,6 +28,11 @@ exports.signup = async (req, res, next) => {
         status: "Error",
         message: "User with this username already exists!",
       });
+    } else if(!err.hasOwnProperty("errors")) {
+      res.status(400).json({
+        status: "Error",
+        message: 'Unexpected error occured while creating user',
+      });
     } else {
       const errorMessagesArray = Object.values(err.errors).map(
         (err) => err.message
