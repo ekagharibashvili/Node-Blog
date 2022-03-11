@@ -50,7 +50,7 @@ exports.login = async (req, res, next) => {
     let { email, password } = req.body;
 
     // Check if the user already exists
-    const user = await User.findOne({ email});
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res.status(400).json({
@@ -66,7 +66,7 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const token = jwt.sign({ email}, process.env.JWT_SECRET, {
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES,
     });
 
