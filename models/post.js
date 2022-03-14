@@ -9,10 +9,7 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: [true, "A post must have a content"],
   },
-  author: {
-    type: String,
-    required: [true, "A post must have a author"],
-  },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   genre: {
     type: String,
     required: true,
@@ -29,6 +26,16 @@ const postSchema = new mongoose.Schema({
       "Thriller",
     ],
   },
+  comment: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
+  // comment: [
+  //   {
+  //     content: String,
+  //     createdAt: {
+  //       type: Date,
+  //       default: Date.now(),
+  //     },
+  //   }
+  // ],
   createdAt: {
     type: Date,
     default: Date.now(),

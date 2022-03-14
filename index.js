@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 
 const postRouter = require('./routes/postRoutes')
 const userRouter = require('./routes/userRoutes')
+const commentRouter = require('./routes/commentRoutes')
+
 
 //for defining enviroment variables
 dotenv.config({
@@ -25,6 +27,8 @@ app.use('/post', postRouter)
 
 // route for users 
 app.use('/user', userRouter)
+app.use('/comment', commentRouter)
+
 
 app.use('/', (req, res, next) => {
   res.send('Use /post instead of /')
