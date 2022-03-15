@@ -15,7 +15,7 @@ exports.createComment = async (req, res, next) => {
 
 exports.getComments = async (req, res, next) => {
   try {
-    const comments = await Comment.find({}).populate('user post');
+    const comments = await Comment.find({}).populate("user post");
 
     res.status(200).json({
       status: "OK",
