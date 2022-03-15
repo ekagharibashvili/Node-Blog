@@ -17,7 +17,7 @@ exports.createPost = async (req, res, next) => {
 
 exports.getPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find({}).populate('user');
+    const posts = await Post.find({}).populate('user comment');
 
     res.status(200).json({
       status: "OK",

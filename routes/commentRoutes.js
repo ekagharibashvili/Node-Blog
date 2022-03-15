@@ -7,8 +7,8 @@ router.use(isAuth)
 
 router.route("/create").post(commentController.createComment);
 router.route("/get").get(commentController.getComments);
-router.route("/update").post(commentController.updateComment);
-router.route("/delete").get(commentController.deleteComment);
+router.route("/update/:id").put(commentController.updateComment);
+router.route("/delete/:id").delete(commentController.deleteComment);
 
 
 
