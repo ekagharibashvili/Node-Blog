@@ -14,4 +14,6 @@ router.route("/update/:userId").put(userController.updateUser);
 
 router.route("/delete/:userId").delete(userController.deleteUser);
 
+router.route("/getOne/:userId").get(userController.getOneUser);
+
 module.exports = router;

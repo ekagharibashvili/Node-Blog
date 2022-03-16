@@ -25,6 +25,21 @@ exports.getComments = async (req, res, next) => {
     console.log(JSON.stringify(err, null, 2));
   }
 };
+
+exports.getOneComment = async (req, res, next) => {
+  try {
+    const comment = await Comment.findById(req.params.id)
+
+    res.status(200).json({
+      status: "OK",
+      data: comment,
+    });
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
+  }
+};
+
+
  exports.updateComment = async (req, res, next) => {
   try {
     const updatedComment = await Comment.findByIdAndUpdate(req.params.id, req.body, {

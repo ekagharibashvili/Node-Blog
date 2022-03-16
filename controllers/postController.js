@@ -17,14 +17,28 @@ exports.createPost = async (req, res, next) => {
 
 exports.getPosts = async (req, res, next) => {
   try {
-    const posts = await Post.find({}).populate('user comment');
+    const posts = await Post.find({}).populate("user comment");
 
     res.status(200).json({
       status: "OK",
       data: posts,
     });
   } catch (err) {
-    console.log('ERROR')
+    console.log("ERROR");
+    console.log(JSON.stringify(err, null, 2));
+  }
+};
+
+exports.getOnePost = async (req, res, next) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+
+    res.status(200).json({
+      status: "OK",
+      data: post,
+    });
+  } catch (err) {
+    console.log("ERROR");
     console.log(JSON.stringify(err, null, 2));
   }
 };

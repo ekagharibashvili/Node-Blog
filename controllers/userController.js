@@ -102,6 +102,26 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+exports.getOneUser = async (req, res, next) => {
+  try {
+    // req.user.email
+    const user = await User.findById(req.params.userId);
+    res.status(200).json({
+      status: "OK",
+      data: user,
+    });
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
+  }
+};
+
 // update
 exports.updateUser = async (req, res, next) => {
   try {
