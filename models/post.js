@@ -27,7 +27,7 @@ const postSchema = new mongoose.Schema({
       "Thriller",
     ],
   },
-  comment: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
+  comment: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   like: { type: mongoose.Schema.Types.ObjectId, ref: "Like" },
   // comment: [
   //   {
@@ -45,5 +45,7 @@ const postSchema = new mongoose.Schema({
 });
 
 const Post = mongoose.model("Post", postSchema);
+
+
 
 module.exports = Post;

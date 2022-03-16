@@ -3,7 +3,7 @@ const Comment = require("../models/comment");
 exports.createComment = async (req, res, next) => {
   try {
     const comment = await Comment.create(req.body);
-
+    
     res.status(200).json({
       status: "OK",
       data: comment,
