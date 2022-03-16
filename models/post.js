@@ -10,7 +10,7 @@ const postSchema = new mongoose.Schema({
     type: String,
     required: [true, "A post must have a content"],
   },
- user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   genre: {
     type: String,
     required: true,
@@ -27,7 +27,8 @@ const postSchema = new mongoose.Schema({
       "Thriller",
     ],
   },
- //  comment: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
+  comment: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
+  like: { type: mongoose.Schema.Types.ObjectId, ref: "Like" },
   // comment: [
   //   {
   //     content: String,
