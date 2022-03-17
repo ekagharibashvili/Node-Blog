@@ -22,7 +22,6 @@ exports.isAuth = async (req, res, next) => {
   }
   // 2) Verificationn Token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-
   //  { username: 'levani '}
 
   // 3) Check if user still exists  (SECURITY)
@@ -38,5 +37,6 @@ exports.isAuth = async (req, res, next) => {
 
   // GRANT ACCESS TO PROTECTED ROUTE
   req.user = freshUser;
+  
   next();
 }

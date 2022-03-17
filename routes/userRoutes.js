@@ -1,18 +1,21 @@
 const express = require("express");
 
 const userController = require("../controllers/userController.js");
-
+const { isAuth } = require("../middlewares/isAuthentication.js");
+const isAdmin  = require("../middlewares/isAdmin");
 const router = express.Router();
+
+
 
 router.route("/signup").post(userController.signup);
 
 router.route("/login").post(userController.login);
 
-router.route("/get").get(userController.getAllUsers);
+router.route("/get").get(isAuth, isAdmin("admin"), userController.getAllUsers);
 
 router.route("/update/:userId").put(userController.updateUser);
 
-router.route("/delete/:userId").delete(userController.deleteUser);
+router.route("/delete/:userId").delete(isAuth, isAdmin("admin"), userController.deleteUser);
 
 router.route("/getOne/:userId").get(userController.getOneUser);
 

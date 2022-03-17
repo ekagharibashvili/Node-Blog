@@ -6,13 +6,13 @@ const User = require("../models/user");
 exports.signup = async (req, res, next) => {
   try {
     // 1) Get user data
-    let { username, password, email } = req.body;
+    let { username, password, email, role } = req.body;
 
     // Hash password and create auth token
     password = await bcrypt.hash(password, 12);
 
-    const newUser = await User.create({ username, password, email });
-    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+    const newUser = await User.create({ username, password, email, role });
+    const token = jwt.sign({ username, password, email, role }, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_EXPIRES,
     });
 
