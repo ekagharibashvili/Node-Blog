@@ -23,10 +23,10 @@ exports.isAuth = async (req, res, next) => {
   // 2) Verificationn Token
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
   //  { username: 'levani '}
-
+  
   // 3) Check if user still exists  (SECURITY)
   const freshUser = await User.find({ email: decoded.email});
-
+   
   if (!freshUser) {
     return res.status(401).json({
       status: 'Not authorized',
