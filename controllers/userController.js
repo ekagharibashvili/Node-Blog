@@ -162,7 +162,7 @@ exports.deleteUser = async (req, res, next) => {
         message: "You should provide correct status field",
       });
     } else { */
-      await User.findByIdAndUpdate(userId, { $set: { active: !active } });
+      await User.findByIdAndUpdate(userId, { $set: { active: false } });
       res.status(204).json({
         status: "OK",
         data: null,
