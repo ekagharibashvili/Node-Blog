@@ -206,5 +206,12 @@ exports.updatePassword = async (req, res, next) => {
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
   }
 };
