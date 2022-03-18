@@ -25,7 +25,7 @@ exports.isAuth = async (req, res, next) => {
   //  { username: 'levani '}
 
   // 3) Check if user still exists  (SECURITY)
-  const freshUser = await User.find({ username: decoded.username});
+  const freshUser = await User.find({ email: decoded.email});
 
   if (!freshUser) {
     return res.status(401).json({
@@ -36,7 +36,7 @@ exports.isAuth = async (req, res, next) => {
 
 
   // GRANT ACCESS TO PROTECTED ROUTE
-  req.user = freshUser;
+  req.user = freshUser[0];
   
   next();
 }
