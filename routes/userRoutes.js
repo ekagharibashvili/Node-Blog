@@ -15,7 +15,7 @@ router.route("/get").get(isAuth, isAdmin("admin"), userController.getAllUsers);
 
 router.route("/update/:userId").put(userController.updateUser);
 
-router.route("/delete/:userId").delete(isAuth, isAdmin("admin"), userController.deleteUser);
+router.route("/delete/:userId").delete(isAuth, isAdmin,userController.deleteUser);
 
 router.route("/getOne/:userId").get(userController.getOneUser);
 
