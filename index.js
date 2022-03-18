@@ -40,14 +40,25 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-mongoose
+/* mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
-  .then(() => console.log("DB connection successful!"));
+  .then(() => console.log("DB connection successful!")); */
 
-const port = 3000;
+async function bootstrap() {
+  try {
+    await mongoose.connect(DB);
+    app.listen(3000, console.log("server is running..."));
+  } catch (error) {
+    console.log(error);
+  }
+}
+bootstrap();
+
+/* const port = 3000;
 app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
+ */

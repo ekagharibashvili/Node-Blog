@@ -32,7 +32,6 @@ exports.getPosts = async (req, res, next) => {
 exports.getOnePost = async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.postId);
-
     res.status(200).json({
       status: "OK",
       data: post,

@@ -18,4 +18,7 @@ router.route("/delete/:userId").delete(isAuth, isAdmin,userController.deleteUser
 
 router.route("/getOne/:userId").get(userController.getOneUser);
 
+//update password
+router.route("/updatePassword").put(userController.updatePassword);
+
 module.exports = router;

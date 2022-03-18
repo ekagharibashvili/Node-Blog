@@ -51,11 +51,11 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    let { email, password } = req.body;
+    let { email, password, username, role } = req.body;
 
     // Check if the user already exists
     const user = await User.findOne({ email });
-
+    console.log(user.password);
     if (!user) {
       return res.status(400).json({
         status: "Error",
@@ -71,7 +71,7 @@ exports.login = async (req, res, next) => {
     }
 
     const token = jwt.sign(
-      { username, password, email, role },
+      { email, password, username, role },
       process.env.JWT_SECRET,
       {
         expiresIn: process.env.JWT_EXPIRES,
@@ -172,5 +172,40 @@ exports.deleteUser = async (req, res, next) => {
       status: "Error",
       message: errorMessagesArray,
     });
+  }
+};
+
+exports.updatePassword = async (req, res, next) => {
+  try {
+    let { email, password, newPassword } = req.body;
+    // find user
+    const findUser = await User.findOne({ email });
+    if (!(await bcrypt.compare(password, findUser.password))) {
+      return res.status(400).json({
+        status: "Error",
+        message: "Incorrect currentPassword",
+      });
+    }
+
+    // compare oldpassword to newPassword
+    if (await bcrypt.compare(newPassword, findUser.password)) {
+      return res.status(400).json({
+        status: "Error",
+        message: "new password cannot be the same as old",
+      });
+    }
+
+    // hashed new password
+    newPassword = await bcrypt.hash(newPassword, 12);
+    // update in database
+    const user = await User.findOneAndUpdate(email, {
+      $set: { password: newPassword },
+    });
+    res.status(200).json({
+      status: "OK",
+      data: user,
+    });
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
   }
 };
