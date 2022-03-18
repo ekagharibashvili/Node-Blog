@@ -70,9 +70,13 @@ exports.login = async (req, res, next) => {
       });
     }
 
-    const token = jwt.sign({ username, password, email, role }, process.env.JWT_SECRET, {
-      expiresIn: process.env.JWT_EXPIRES,
-    });
+    const token = jwt.sign(
+      { username, password, email, role },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: process.env.JWT_EXPIRES,
+      }
+    );
 
     res.status(200).json({
       status: "OK",
@@ -154,28 +158,19 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const {active} = req.body;
-
-/*     if (typeof active !== Boolean) {
-      res.status(400).json({
-        status: "Error",
-        message: "You should provide correct status field",
-      });
-    } else { */
-      await User.findByIdAndUpdate(userId, { $set: { active: false } });
-      res.status(204).json({
-        status: "OK",
-        data: null,
-      });
-  //  }
+    await User.findByIdAndUpdate(userId, { $set: { active: false } });
+    res.status(204).json({
+      status: "OK",
+      data: null,
+    });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
-   /*  const errorMessagesArray = Object.values(err.errors).map(
+    const errorMessagesArray = Object.values(err.errors).map(
       (err) => err.message
     );
     res.status(400).json({
       status: "Error",
       message: errorMessagesArray,
-    }); */
+    });
   }
 };
