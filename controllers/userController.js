@@ -154,7 +154,7 @@ exports.updateUser = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    
+    const {active} = req.body;
 
 /*     if (typeof active !== Boolean) {
       res.status(400).json({
