@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-
 const postSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -44,8 +43,10 @@ const postSchema = new mongoose.Schema({
   },
 });
 
+postSchema.pre(/^find/, function () {
+  this.find({}).select("-__v");
+});
+
 const Post = mongoose.model("Post", postSchema);
-
-
 
 module.exports = Post;

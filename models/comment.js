@@ -9,6 +9,9 @@ const commentSchema = new mongoose.Schema({
     default: Date.now(),
   },
 });
+commentSchema.pre(/^find/, function () {
+  this.find({}).select("-__v");
+});
 
 const Comment = mongoose.model("Comment", commentSchema);
 

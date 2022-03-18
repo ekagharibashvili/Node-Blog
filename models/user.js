@@ -14,6 +14,7 @@ const userSchema = new mongoose.Schema({
     unique: [true, "User must have a unique password"],
     minlength: [6, "Password must include at least six characters"],
     required: [true, "User must have a password"],
+    select: false,
   },
   email: {
     type: String,
@@ -21,7 +22,7 @@ const userSchema = new mongoose.Schema({
     required: [true, "User must have a email address"],
     validate: [validator.isEmail, "Please provide a valid email"],
   },
-  role: { 
+  role: {
     type: String,
     enum: ["admin", "user"],
     default: "user",
@@ -38,7 +39,7 @@ const userSchema = new mongoose.Schema({
 
 // return active users only
 userSchema.pre(/^find/, function () {
-  this.find({ active: true });
+  this.find({ active: true }).select("-__v");
 });
 
 const User = mongoose.model("User", userSchema);

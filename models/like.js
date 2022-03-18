@@ -13,6 +13,10 @@ const likeSchema = new mongoose.Schema({
   },
 });
 
+likeSchema.pre(/^find/, function () {
+  this.find({}).select("-__v");
+});
+
 const Like = mongoose.model("Like", likeSchema);
 
 module.exports = Like;
