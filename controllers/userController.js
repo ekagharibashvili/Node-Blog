@@ -4,13 +4,19 @@ const User = require("../models/user");
 // create
 exports.signup = async (req, res, next) => {
   try {
-    // 1) Get user data
-    let { username, password, email, role } = req.body;
-
+    console.log(req.file);
+    let { username, password, email, role} = req.body;
+    let imageUrl = req.file.path
+  //  console.log(imageUrl);
     // Hash password and create auth token
     password = await bcrypt.hash(password, 12);
-
-    const newUser = await User.create({ username, password, email, role });
+    const newUser = await User.create({
+      username,
+      password,
+      email,
+      role,
+      imageUrl
+    });
     const token = jwt.sign(
       { username, password, email, role },
       process.env.JWT_SECRET,

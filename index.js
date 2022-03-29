@@ -13,12 +13,12 @@ dotenv.config({
 });
 
 const app = express();
-
 // middleware - function that can modify incoming data
 // middle -- between the request and the response
 // to put body object in request (req.body to be available)
 //Body parser
 //* when we have body larger than 10kb basically not be accepted
+
 app.use(express.json({ limit: "10kb" }));
 
 app.use("/post", postRouter);
@@ -40,13 +40,6 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 
-/* mongoose
-  .connect(DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("DB connection successful!")); */
-
 async function bootstrap() {
   try {
     await mongoose.connect(DB);
@@ -56,9 +49,3 @@ async function bootstrap() {
   }
 }
 bootstrap();
-
-/* const port = 3000;
-app.listen(port, () => {
-  console.log(`App running on port ${port}...`);
-});
- */
