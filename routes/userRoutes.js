@@ -22,4 +22,6 @@ router.route("/getOne/:userId").get(userController.getOneUser);
 //update password
 router.route("/updatePassword").put(userController.updatePassword);
 
+router.route("/updateUserImage/:userId").put(upload.single("newImageUrl"), userController.updateUserImage);
+
 module.exports = router;

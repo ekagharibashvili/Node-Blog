@@ -5,9 +5,9 @@ const User = require("../models/user");
 exports.signup = async (req, res, next) => {
   try {
     console.log(req.file);
-    let { username, password, email, role} = req.body;
-    let imageUrl = req.file.path
-  //  console.log(imageUrl);
+    let { username, password, email, role } = req.body;
+    let imageUrl = req.file.path;
+    //  console.log(imageUrl);
     // Hash password and create auth token
     password = await bcrypt.hash(password, 12);
     const newUser = await User.create({
@@ -15,7 +15,7 @@ exports.signup = async (req, res, next) => {
       password,
       email,
       role,
-      imageUrl
+      imageUrl,
     });
     const token = jwt.sign(
       { username, password, email, role },
@@ -209,6 +209,31 @@ exports.updatePassword = async (req, res, next) => {
     res.status(200).json({
       status: "OK",
       data: user,
+    });
+  } catch (err) {
+    console.log(JSON.stringify(err, null, 2));
+    const errorMessagesArray = Object.values(err.errors).map(
+      (err) => err.message
+    );
+    res.status(400).json({
+      status: "Error",
+      message: errorMessagesArray,
+    });
+  }
+};
+
+// update user image
+exports.updateUserImage = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    let newImageUrl = req.file.path;
+    console.log(newImageUrl);
+    const updatedUser = await User.findByIdAndUpdate(userId, {
+      $set: { imageUrl: newImageUrl },
+    });
+    res.status(200).json({
+      status: "OK",
+      data: updatedUser,
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
