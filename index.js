@@ -25,10 +25,6 @@ app.get("/user/signup", (req, res) => {
   res.render("upload");
 });
 
-app.post("/user/signup", upload.single("imageUrl"), (req, res) => {
-  res.send("<h1>Register completed</h1>");
-});
-
 app.use(express.json({ limit: "10kb" }));
 
 app.use("/post", postRouter);
