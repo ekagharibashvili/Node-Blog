@@ -1,12 +1,12 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser")
+const bodyParser = require("body-parser");
 const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
-
+const { upload } = require("./middlewares/upload");
 //for defining enviroment variables
 dotenv.config({
   path: "./config.env",
@@ -18,8 +18,16 @@ const app = express();
 // to put body object in request (req.body to be available)
 //Body parser
 //* when we have body larger than 10kb basically not be accepted
-app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
+
+app.get("/user/signup", (req, res) => {
+  res.render("upload");
+});
+
+app.post("/user/signup", upload.single("imageUrl"), (req, res) => {
+  res.send("<h1>Register completed</h1>");
+});
 
 app.use(express.json({ limit: "10kb" }));
 
