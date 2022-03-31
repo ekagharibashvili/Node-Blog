@@ -4,7 +4,7 @@ const User = require("../models/user");
 // create
 exports.signup = async (req, res, next) => {
   try {
-    console.log(req.file);
+   // console.log(req.file);
     let { username, password, email, role } = req.body;
     let imageUrl = req.file.path;
     //  console.log(imageUrl);
@@ -98,7 +98,7 @@ exports.getAllUsers = async (req, res, next) => {
   try {
     // req.user.email
     const users = await User.find({});
-
+    
     res.status(200).json({
       status: "OK",
       data: users,
