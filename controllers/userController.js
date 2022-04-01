@@ -1,7 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
-const fs = require("fs");
+const { sendMail } = require("../utils/email");
 // create
 exports.signup = async (req, res, next) => {
   try {
@@ -31,6 +31,7 @@ exports.signup = async (req, res, next) => {
       data: newUser,
       token,
     });
+    sendMail;
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     if (err.code === 11000) {
