@@ -26,10 +26,6 @@ app.get("/user/signup", (req, res) => {
   res.render("upload");
 });
 
-// client-side return image
-app.get("/user/updateUserImage", (req, res) => {
-  res.render("returnImg");
-});
 
 app.use(express.json({ limit: "10kb" }));
 
