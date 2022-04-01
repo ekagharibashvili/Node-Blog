@@ -4,7 +4,7 @@ const User = require("../models/user");
 // create
 exports.signup = async (req, res, next) => {
   try {
-   // console.log(req.file);
+    // console.log(req.file);
     let { username, password, email, role } = req.body;
     let imageUrl = req.file.path;
     //  console.log(imageUrl);
@@ -98,7 +98,7 @@ exports.getAllUsers = async (req, res, next) => {
   try {
     // req.user.email
     const users = await User.find({});
-    
+
     res.status(200).json({
       status: "OK",
       data: users,
@@ -225,15 +225,18 @@ exports.updatePassword = async (req, res, next) => {
 // update user image
 exports.updateUserImage = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const { username } = req.body;
     let newImageUrl = req.file.path;
-    console.log(newImageUrl);
-    const updatedUser = await User.findByIdAndUpdate(userId, {
-      $set: { imageUrl: newImageUrl },
-    });
+    await User.findOneAndUpdate(
+      username,
+      {
+        $set: { imageUrl: newImageUrl },
+      },
+      { new: true }
+    );
     res.status(200).json({
       status: "OK",
-      data: updatedUser,
+      data: newImageUrl,
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
