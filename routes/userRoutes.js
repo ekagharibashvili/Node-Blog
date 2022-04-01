@@ -4,6 +4,7 @@ const { isAuth } = require("../middlewares/isAuthentication");
 const { isAdmin } = require("../middlewares/isAdmin");
 const { upload } = require("../middlewares/upload");
 const { deleteImg } = require("../middlewares/deleteImg");
+const { returnImg } = require("../middlewares/returnImg");
 const router = express.Router();
 
 router.route("/signup").post(upload.single("imageUrl"), userController.signup);
@@ -29,6 +30,7 @@ router
     isAuth,
     deleteImg,
     upload.single("newImageUrl"),
+    returnImg,
     userController.updateUserImage
   );
 

@@ -1,11 +1,11 @@
 const fs = require("fs");
 const { dirname } = require("path");
-exports.deleteImg = (req, res, next) => {
+exports.returnImg = (req, res, next) => {
   const appDir = dirname(require.main.filename);
   const pathDr = `${appDir}/images/${req.user.username}.jpg`;
-  fs.unlink(pathDr, (err) => {
+  fs.readFile(pathDr, function (err, data) {
     if (err) throw err;
-    console.log("Image Updated");
+    res.writeHead(200, { "Content-Type": "image/jpg" });
+    res.end(data);
   });
-  next();
 };

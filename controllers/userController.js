@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
+const fs = require("fs");
 // create
 exports.signup = async (req, res, next) => {
   try {
@@ -227,7 +228,7 @@ exports.updateUserImage = async (req, res, next) => {
   try {
     const { username } = req.body;
     let newImageUrl = req.file.path;
-    await User.findOneAndUpdate(
+    const newImage = await User.findOneAndUpdate(
       username,
       {
         $set: { imageUrl: newImageUrl },
@@ -236,7 +237,7 @@ exports.updateUserImage = async (req, res, next) => {
     );
     res.status(200).json({
       status: "OK",
-      data: newImageUrl,
+      data: newImage,
     });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));

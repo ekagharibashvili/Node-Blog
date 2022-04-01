@@ -6,7 +6,7 @@ const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
-const { upload } = require("./middlewares/upload");
+
 //for defining enviroment variables
 dotenv.config({
   path: "./config.env",
@@ -21,8 +21,14 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
+// client-side for signup
 app.get("/user/signup", (req, res) => {
   res.render("upload");
+});
+
+// client-side return image
+app.get("/user/updateUserImage", (req, res) => {
+  res.render("returnImg");
 });
 
 app.use(express.json({ limit: "10kb" }));
