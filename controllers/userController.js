@@ -26,12 +26,12 @@ exports.signup = async (req, res, next) => {
       }
     );
 
+    await sendMail();
     res.status(200).json({
       status: "OK",
       data: newUser,
       token,
     });
-    sendMail;
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     if (err.code === 11000) {
@@ -48,7 +48,8 @@ exports.signup = async (req, res, next) => {
       const errorMessagesArray = Object.values(err.errors).map(
         (err) => err.message
       );
-      res.status(400).json({
+      res.status(400).js;
+      on({
         status: "Error",
         message: errorMessagesArray,
       });

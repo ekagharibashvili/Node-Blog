@@ -2,13 +2,14 @@ const nodemailer = require("nodemailer");
 const output = `<h1><b>Congratulations</b>! You have successfully registered</h1>`;
 
 exports.sendMail = async () => {
+  console.log('here')
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 587,
+    port: 2525,
     secure: false,
     auth: {
-      user: 'gharibashvili.e@gtu.ge',
-      pass: 'password',
+      user: "gharibashvili.e@gtu.ge",
+      pass: "",
     },
     tls: {
       rejectUnauthorized: false,
