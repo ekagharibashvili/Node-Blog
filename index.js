@@ -8,6 +8,8 @@ const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");
+const xss = require("xss-clean");
+const hpp = require("hpp");
 
 //for defining enviroment variables
 dotenv.config({
@@ -22,9 +24,20 @@ const limiter = rateLimit({
 });
 
 const app = express();
+//using security libraries
 
+// protect app from DDoS attacks
 app.use(limiter);
+
+// Helmet helps you secure your Express apps by setting various HTTP headers
 app.use(helmet());
+
+// sanitize user input coming from POST body, GET queries, and url params.
+app.use(xss());
+
+// protect against HTTP Parameter Pollution attacks
+app.use(hpp());
+
 // middleware - function that can modify incoming data
 // middle -- between the request and the response
 // to put body object in request (req.body to be available)

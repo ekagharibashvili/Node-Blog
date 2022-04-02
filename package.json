@@ -21,10 +21,12 @@
     "express": "^4.17.3",
     "express-rate-limit": "^6.3.0",
     "helmet": "^5.0.2",
+    "hpp": "^0.2.3",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.2.4",
     "multer": "^1.4.4",
     "nodemailer": "^6.7.3",
-    "validator": "^13.7.0"
+    "validator": "^13.7.0",
+    "xss-clean": "^0.1.1"
   }
 }
