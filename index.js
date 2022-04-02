@@ -7,6 +7,7 @@ const userRouter = require("./routes/userRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
 const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 
 //for defining enviroment variables
 dotenv.config({
@@ -21,7 +22,9 @@ const limiter = rateLimit({
 });
 
 const app = express();
+
 app.use(limiter);
+app.use(helmet());
 // middleware - function that can modify incoming data
 // middle -- between the request and the response
 // to put body object in request (req.body to be available)
