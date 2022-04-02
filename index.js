@@ -6,13 +6,22 @@ const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const commentRouter = require("./routes/commentRoutes");
 const likeRouter = require("./routes/likeRoutes");
+const rateLimit = require("express-rate-limit");
 
 //for defining enviroment variables
 dotenv.config({
   path: "./config.env",
 });
 
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+  standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
+  legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+});
+
 const app = express();
+app.use(limiter);
 // middleware - function that can modify incoming data
 // middle -- between the request and the response
 // to put body object in request (req.body to be available)
@@ -25,7 +34,6 @@ app.set("view engine", "ejs");
 app.get("/user/signup", (req, res) => {
   res.render("upload");
 });
-
 
 app.use(express.json({ limit: "10kb" }));
 
