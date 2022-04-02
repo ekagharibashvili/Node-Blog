@@ -1,15 +1,17 @@
 const nodemailer = require("nodemailer");
 const output = `<h1><b>Congratulations</b>! You have successfully registered</h1>`;
 
-exports.sendMail = async () => {
-  console.log('here')
+exports.sendMail = async (req, res) => {
+  console.log("here");
+  let email = req.body.email;
+  console.log(email);
   let transporter = nodemailer.createTransport({
     host: "smtp.gmail.com",
-    port: 2525,
+    port: 587,
     secure: false,
     auth: {
       user: "gharibashvili.e@gtu.ge",
-      pass: "",
+      pass: "input pass",
     },
     tls: {
       rejectUnauthorized: false,
@@ -19,7 +21,7 @@ exports.sendMail = async () => {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"Eka Garibashvili 👻" <gharibashvili.e@gtu.ge>',
-    to: "EkaGaribashvili98@gmail.com",
+    to: email,
     subject: "Hello ✔",
     text: "Hello world?",
     html: output,

@@ -25,13 +25,12 @@ exports.signup = async (req, res, next) => {
         expiresIn: process.env.JWT_EXPIRES,
       }
     );
-
-    await sendMail();
-    res.status(200).json({
-      status: "OK",
-      data: newUser,
-      token,
-    });
+    await sendMail(req),
+      res.status(200).json({
+        status: "OK",
+        data: newUser,
+        token,
+      });
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     if (err.code === 11000) {
