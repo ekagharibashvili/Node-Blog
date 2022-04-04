@@ -7,6 +7,7 @@ const { returnImg } = require("../utils/returnImg");
 exports.signup = async (req, res, next) => {
   try {
     let { username, password, email, role } = req.body;
+    // email details
     const mailInfo = {
       from: '"Eka Garibashvili 👻" <gharibashvili.e@gtu.ge>',
       to: req.body.email,
