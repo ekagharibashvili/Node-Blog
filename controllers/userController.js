@@ -2,13 +2,11 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const { sendMail } = require("../utils/email");
+const { returnImg } = require("../utils/returnImg");
 // create
 exports.signup = async (req, res, next) => {
   try {
-    // console.log(req.file);
     let { username, password, email, role } = req.body;
-    let imageUrl = req.file.path;
-    //  console.log(imageUrl);
     // Hash password and create auth token
     password = await bcrypt.hash(password, 12);
     const newUser = await User.create({
@@ -16,7 +14,6 @@ exports.signup = async (req, res, next) => {
       password,
       email,
       role,
-      imageUrl,
     });
     const token = jwt.sign(
       { username, password, email, role },
@@ -47,8 +44,7 @@ exports.signup = async (req, res, next) => {
       const errorMessagesArray = Object.values(err.errors).map(
         (err) => err.message
       );
-      res.status(400).js;
-      on({
+      res.status(400).json({
         status: "Error",
         message: errorMessagesArray,
       });
@@ -58,11 +54,10 @@ exports.signup = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   try {
-    let { email, password, username, role } = req.body;
-
+    let { email, password } = req.body;
     // Check if the user already exists
-    const user = await User.findOne({ email });
-    console.log(user.password);
+    const user = await User.findOne({ email }).select("+password");
+
     if (!user) {
       return res.status(400).json({
         status: "Error",
@@ -76,14 +71,9 @@ exports.login = async (req, res, next) => {
         message: "Incorrect username or password",
       });
     }
-
-    const token = jwt.sign(
-      { email, password, username, role },
-      process.env.JWT_SECRET,
-      {
-        expiresIn: process.env.JWT_EXPIRES,
-      }
-    );
+    const token = jwt.sign({ email, password }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES,
+    });
 
     res.status(200).json({
       status: "OK",
@@ -228,18 +218,15 @@ exports.updatePassword = async (req, res, next) => {
 exports.updateUserImage = async (req, res, next) => {
   try {
     const { username } = req.body;
-    let newImageUrl = req.file.path;
-    const newImage = await User.findOneAndUpdate(
+    const newImageUrl = req.file.path;
+    await User.findOneAndUpdate(
       username,
       {
         $set: { imageUrl: newImageUrl },
       },
       { new: true }
     );
-    res.status(200).json({
-      status: "OK",
-      data: newImage,
-    });
+    await returnImg(req, res);
   } catch (err) {
     console.log(JSON.stringify(err, null, 2));
     const errorMessagesArray = Object.values(err.errors).map(

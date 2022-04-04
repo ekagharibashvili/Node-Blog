@@ -1,7 +1,6 @@
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
 const postRouter = require("./routes/postRoutes");
 const userRouter = require("./routes/userRoutes");
 const commentRouter = require("./routes/commentRoutes");
@@ -43,7 +42,6 @@ app.use(hpp());
 // to put body object in request (req.body to be available)
 //Body parser
 //* when we have body larger than 10kb basically not be accepted
-app.use(bodyParser.urlencoded({ extended: false }));
 app.set("view engine", "ejs");
 
 // client-side for signup
