@@ -7,6 +7,13 @@ const { returnImg } = require("../utils/returnImg");
 exports.signup = async (req, res, next) => {
   try {
     let { username, password, email, role } = req.body;
+    const mailInfo = {
+      from: '"Eka Garibashvili 👻" <gharibashvili.e@gtu.ge>',
+      to: req.body.email,
+      subject: "Hello ✔",
+      text: "Hello world?",
+      html: `<h1><b>Congratulations</b>! You have successfully registered</h1>`,
+    };
     // Hash password and create auth token
     password = await bcrypt.hash(password, 12);
     const newUser = await User.create({
@@ -22,10 +29,7 @@ exports.signup = async (req, res, next) => {
         expiresIn: process.env.JWT_EXPIRES,
       }
     );
-    await sendMail(
-      req,
-      `<h1><b>Congratulations</b>! You have successfully registered</h1>`
-    );
+    await sendMail(mailInfo);
     res.status(200).json({
       status: "OK",
       data: newUser,
