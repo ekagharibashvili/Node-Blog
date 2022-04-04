@@ -11,7 +11,7 @@ exports.sendMail = async (req, res) => {
     secure: false,
     auth: {
       user: "gharibashvili.e@gtu.ge",
-      pass: "enigmakripto123",
+      pass: "",
     },
     tls: {
       rejectUnauthorized: false,
