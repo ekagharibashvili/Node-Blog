@@ -5,7 +5,7 @@ exports.initTransporter = () =>
     port: 587,
     secure: false,
     auth: {
-      user: "gharibashvili.e@gtu.ge",
+      user: "",
       pass: "",
     },
     tls: {
