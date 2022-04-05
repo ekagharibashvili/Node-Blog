@@ -6,7 +6,7 @@ exports.initTransporter = () =>
     secure: false,
     auth: {
       user: "gharibashvili.e@gtu.ge",
-      pass: "dnbksjadkasjdsakjdbaskjd123",
+      pass: "",
     },
     tls: {
       rejectUnauthorized: false,
